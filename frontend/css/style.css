@@ -1,0 +1,213 @@
+/* ===== Reset & base ===== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  line-height: 1.6;
+}
+
+img, video { max-width: 100%; display: block; }
+
+ul { list-style: none; }
+a { text-decoration: none; color: inherit; }
+
+
+/* ===== Theme variables ===== */
+:root {
+  --bg: #faf2f2;
+  --text: #0a0a0a;
+}
+
+[data-theme="dark"] {
+  --bg: #0a0a0a;
+  --text: #f2f1ee;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+#theme-toggle {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+}
+
+.nav-actions {
+  justify-self: end;
+  margin-left: 48px;
+}
+
+/* ===== Layout helpers ===== */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+section h2 {
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* ===== Nav ===== */
+#navbar {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 45px;
+  z-index: 10;
+  column-gap: 40px;
+}
+
+#navbar nav {
+  justify-self: center;
+}
+
+#navbar nav ul {
+  display: flex;
+  gap: 64px;
+}
+
+/* ===== Hero ===== */
+#hero {
+  min-height: 90vh;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 200px 60px;
+}
+
+#hero h1 {
+  font-size: clamp(5rem, 14vw, 10rem);
+  line-height: 1;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+#hero .tagline {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  max-width: 500px;
+}
+
+/* ===== About / Education / Featured / Contact ===== */
+#about, #education, #featured, #contact {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 200px 24px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#about p, #education p, #featured p {
+  max-width: 650px;
+}
+
+.education-item h3 { font-size: 1.5rem; margin-bottom: 8px; }
+.education-item .meta { font-size: 0.85rem; margin-bottom: 16px; opacity: 0.7; }
+
+/* ===== Skills grid ===== */
+#skills {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 200px 24px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1px;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+}
+
+.skill-card {
+  padding: 32px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+}
+
+.skill-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+
+/* ===== Projects grid ===== */
+#projects {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 140px 24px;
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.projects-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.project-card {
+  padding: 28px;
+  border: 1px solid currentColor;
+  border-radius: 10px;
+}
+
+.project-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+
+/* ===== Contact form ===== */
+#contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 500px;
+  margin-top: 0px;
+}
+
+#contact input,
+#contact textarea {
+  padding: 14px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+
+#contact textarea { min-height: 140px; resize: vertical; }
+
+#contact button {
+  padding: 14px;
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* ===== Footer ===== */
+footer {
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 0.85rem;
+  opacity: 0.7;
+}

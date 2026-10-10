@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= NAV ================= -->
+  <header id="navbar">
+    <div class="logo"><!-- your name/initials --></div>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>  
+      </ul>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+  <section id="hero">
+    <h1>RUDHRA RAJPUT</h1> 
+    <p class="tagline">I build AI tools that keep working when the internet doesn't.</p>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <h2>ABOUT ME</h2>
+    <p>
+      I'm Rudhra Rajput , a BCA student specializing in Artificial Intelligence and Machine Learning.
+      I'm currently learning Python, AI/ML, and web development while building practical
+      projects to strengthen my skills.
+    </p>
+  </section>
+
+  <!-- ================= EDUCATION ================= -->
+  <section id="education">
+    <h2>EDUCATION</h2>
+    <div class="education-item">
+      <h3>Bachelor of Computer Applications</h3>
+      <p class="meta">AI &amp; Machine Learning &mdash; in progress</p>
+      <p>
+        Currently pursuing my BCA with a focus on Artificial Intelligence and Machine Learning.
+        Exploring programming, AI/ML concepts, web development, and software projects while
+        building my skills through practical work.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills">
+    <h2>SKILLS</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Python</h3>
+        <p>Building projects and strengthening my programming fundamentals.</p>
+      </div>
+      <div class="skill-card">
+        <h3>AI / ML</h3>
+        <p>Exploring machine learning and intelligent systems.</p>
+      </div>
+      <div class="skill-card">
+        <h3>HTML / CSS / JS</h3>
+        <p>Building and styling interactive web interfaces.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Git / GitHub</h3>
+        <p>Managing project versions and hosting my work.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <h2>PROJECTS</h2>
+    <div class="projects-wrapper">
+      <!-- this is where the circular carousel / hover-preview cards go -->
+      <div class="project-card" data-project="ai-news-widget">
+        <h3>AI News Widget</h3>
+        <p>Python/Tkinter desktop app showing AI/ML headlines, with save, search, and a saved-news view.</p>
+      </div>
+      <div class="project-card" data-project="offline-ai-chat">
+        <h3>Offline AI Chat</h3>
+        <p>Personal assistant with automatic online-to-offline fallback (Gemini online, Ollama offline).</p>
+      </div>
+      <div class="project-card" data-project="personal-mcp-server">
+        <h3>Personal MCP Server</h3>
+        <p>Python MCP server exposing my personal projects as tools for any MCP client.</p>
+      </div>
+      <div class="project-card" data-project="result-analyzer">
+        <h3>Student Result Analyzer</h3>
+        <p>Web app for analyzing and presenting student academic results. Built with a team.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FEATURED PROJECT ================= -->
+  <section id="featured">
+    <h2>Offline AI Chat</h2>
+    <p>
+      My ongoing long-term build &mdash; a personal AI assistant that keeps working even without
+      internet, automatically falling back to a local model. Built step by step, prioritizing
+      reliability over novelty.
+    </p>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact">
+    <h2>LET'S TALK</h2>
+    <form id="contact-form">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <textarea name="message" placeholder="Your message" required></textarea>
+      <p> wanna work together? smash the button below!</p>
+      <button type="submit">Send</button>
+      <p1 id="contact-status"></p1>
+    </form>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <p>&copy; 2026 X</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
