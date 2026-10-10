@@ -19,10 +19,10 @@ app = FastAPI(title="Portfolio Contact API")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],  # tighten this to your real domain before going live
-    allow_methods=["POST"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
-
+    
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
