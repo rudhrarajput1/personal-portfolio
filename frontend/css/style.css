@@ -4,8 +4,13 @@
 html { scroll-behavior: smooth; }
 
 body {
+  background: var(--bg);
+  color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 img, video { max-width: 100%; display: block; }
@@ -23,12 +28,6 @@ a { text-decoration: none; color: inherit; }
 [data-theme="dark"] {
   --bg: #0a0a0a;
   --text: #f2f1ee;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  transition: background 0.3s ease, color 0.3s ease;
 }
 
 #theme-toggle {
