@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 *.log
+.vscode/*
+!.vscode/settings.json
+messages.db
+__pycache__/
+*.pyc
