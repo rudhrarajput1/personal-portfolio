@@ -118,3 +118,42 @@ if (fanTrack && fanStage) {
   window.addEventListener('resize', updateFan);
   updateFan(); // correct positions on load, before any scrolling
 }
+
+// =====================================================
+// CUSTOM CURSOR — changes per section via data-cursor attributes
+// =====================================================
+const cursor = document.getElementById('custom-cursor');
+const cursorText = cursor ? cursor.querySelector('.cursor-text') : null;
+
+if (cursor) {
+  window.addEventListener('mousemove', (e) => {
+    cursor.style.left = `${e.clientX}px`;
+    cursor.style.top = `${e.clientY}px`;
+  });
+
+  const labels = {
+    view: 'View',
+    send: 'Send',
+  };
+
+  document.querySelectorAll('[data-cursor]').forEach((el) => {
+    const type = el.getAttribute('data-cursor');
+
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add(`is-${type}`);
+      if (labels[type]) cursorText.textContent = labels[type];
+    });
+
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove(`is-${type}`);
+      cursorText.textContent = '';
+    });
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+  });
+  document.addEventListener('mouseenter', () => {
+    cursor.style.opacity = '1';
+  });
+}
