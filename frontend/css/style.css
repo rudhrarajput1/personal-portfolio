@@ -257,3 +257,66 @@ footer {
   font-size: 0.85rem;
   opacity: 0.7;
 }
+
+/* ===== Custom cursor ===== */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+
+  a, button, .fan-card {
+    cursor: none;
+  }
+
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--text);
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    mix-blend-mode: difference;
+  }
+
+  .custom-cursor .cursor-text {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--bg);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .custom-cursor.is-link {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1.5px solid var(--text);
+  }
+
+  .custom-cursor.is-view {
+    width: 50px;
+    height: 50px;
+    background: var(--text);
+  }
+  .custom-cursor.is-view .cursor-text {
+    opacity: 1;
+  }
+
+  .custom-cursor.is-now {
+    width: 60px;
+    height: 60px;
+    background: var(--text);
+  }
+  .custom-cursor.is-now .cursor-text {
+    opacity: 1;
+  }
+}

@@ -10,17 +10,21 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
+ 
+  <!-- Custom Cursor -->
+<div class="custom-cursor" id="custom-cursor">
+  <span class="cursor-text"></span>
+</div>
   <!-- ================= NAV ================= -->
   <header id="navbar">
     <div class="logo"><!-- your name/initials --></div>
     <nav>
       <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#education">Education</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#contact">Contact</a></li>  
+        <li><a href="#about" data-cursor="link">About</a></li>
+        <li><a href="#education" data-cursor="link">Education</a></li>
+        <li><a href="#skills" data-cursor="link">Skills</a></li>
+        <li><a href="#projects" data-cursor="link">Projects</a></li>
+        <li><a href="#contact" data-cursor="link">Contact</a></li>  
       </ul>
       </nav>
       <div class="nav-actions">
@@ -87,19 +91,19 @@
     <h2>Projects</h2>
     <div class="fan-track" id="fan-track">
       <div class="fan-stage" id="fan-stage">
-        <div class="fan-card" data-index="0">
+        <div class="fan-card" data-index="0" data-cursor="view">
           <video class="preview" muted loop preload="metadata" src="assets/videos/ai-news-widget.mp4"></video>
           <div class="label">AI News Widget</div>
         </div>
-        <div class="fan-card" data-index="1">
+        <div class="fan-card" data-index="1" data-cursor="view">
           <video class="preview" muted loop preload="metadata" src="assets/videos/offline-ai-chat.mp4"></video>
           <div class="label">Offline AI Chat</div>
         </div>
-        <div class="fan-card" data-index="2">
+        <div class="fan-card" data-index="2" data-cursor="view">
           <video class="preview" muted loop preload="metadata" src="assets/videos/personal-mcp-server.mp4"></video>
           <div class="label">Personal MCP Server</div>
         </div>
-        <div class="fan-card" data-index="3">
+        <div class="fan-card" data-index="3" data-cursor="view">
           <video class="preview" muted loop preload="metadata" src="assets/videos/result-analyzer.mp4"></video>
           <div class="label">Student Result Analyzer</div>
         </div>
@@ -117,7 +121,7 @@
       <input type="email" name="email" placeholder="Your email" required>
       <textarea name="message" placeholder="Your message" required></textarea>
       <p> wanna work together? smash the button below!</p>
-      <button type="submit">Send</button>
+      <button type="submit" data-cursor="now">Send</button>
       <p1 id="contact-status"></p1>
     </form>
   </section>
