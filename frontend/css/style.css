@@ -269,22 +269,27 @@ footer {
   }
 
   .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: var(--text);
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: width 0.25s ease, height 0.25s ease, background 0.25s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    mix-blend-mode: difference;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--text);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%) scale(1);
+  transition: transform 0.18s cubic-bezier(0.22, 1, 0.36, 1), background 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mix-blend-mode: difference;
+  will-change: transform;
+}
+
+a *, button *, .fan-card *, [data-cursor] * {
+  pointer-events: none;
+}
 
   .custom-cursor .cursor-text {
     font-size: 0.7rem;
@@ -295,28 +300,17 @@ footer {
     white-space: nowrap;
   }
 
-  .custom-cursor.is-link {
-    width: 36px;
-    height: 36px;
-    background: transparent;
-    border: 1.5px solid var(--text);
-  }
 
-  .custom-cursor.is-view {
-    width: 50px;
-    height: 50px;
-    background: var(--text);
-  }
+  .custom-cursor.is-link { transform: translate(-50%, -50%) scale(2.25); background: transparent; border: 1.5px solid var(--text); }
+  
   .custom-cursor.is-view .cursor-text {
     opacity: 1;
   }
 
-  .custom-cursor.is-now {
-    width: 60px;
-    height: 60px;
-    background: var(--text);
-  }
-  .custom-cursor.is-now .cursor-text {
+.custom-cursor.is-view { transform: translate(-50%, -50%) scale(3.125); background: var(--text); }
+.custom-cursor.is-now  { transform: translate(-50%, -50%) scale(3.75); background: var(--text); }
+
+.custom-cursor.is-send .cursor-text {
     opacity: 1;
   }
 }
