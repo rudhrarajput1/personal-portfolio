@@ -126,10 +126,17 @@ const cursor = document.getElementById('custom-cursor');
 const cursorText = cursor ? cursor.querySelector('.cursor-text') : null;
 
 if (cursor) {
-  window.addEventListener('mousemove', (e) => {
-    cursor.style.left = `${e.clientX}px`;
-    cursor.style.top = `${e.clientY}px`;
-  });
+  let mouseX = 0, mouseY = 0;
+window.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+});
+function updateCursor() {
+  cursor.style.left = `${mouseX}px`;
+  cursor.style.top = `${mouseY}px`;
+  requestAnimationFrame(updateCursor);
+}
+requestAnimationFrame(updateCursor);
 
   const labels = {
     view: 'View',
