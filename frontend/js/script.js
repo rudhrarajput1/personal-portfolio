@@ -1,32 +1,7 @@
-// Point this at your backend (local dev shown here; change on deploy)
-const API_BASE = "http://127.0.0.1:8000";
 
-const form = document.getElementById("contact-form");
-const status = document.getElementById("contact-status");
+// java script for the personal portfolio site //
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  status.textContent = "Sending...";
 
-  const data = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value,
-  };
-
-  try {
-    const res = await fetch(`${API_BASE}/contact`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    if (!res.ok) throw new Error("Request failed");
-    status.textContent = "Message sent. Thanks!";
-    form.reset();
-  } catch (err) {
-    status.textContent = "Something went wrong. Try again.";
-  }
-});
 
 // Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
@@ -164,3 +139,71 @@ requestAnimationFrame(updateCursor);
     cursor.style.opacity = '1';
   });
 }
+
+// ===== Offline-aware Contact Form =====
+const contactForm = document.getElementById('contact-form');
+const contactStatus = document.getElementById('contact-status');
+const PENDING_KEY = 'pendingContactMessage';
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = {
+      name: contactForm.name.value,
+      email: contactForm.email.value,
+      message: contactForm.message.value,
+    };
+    await trySend(formData);
+  });
+}
+
+async function trySend(formData) {
+  if (!navigator.onLine) {
+    saveForLater(formData);
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/contact`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData),
+    });
+
+    if (!res.ok) throw new Error('Server error');
+
+    contactStatus.textContent = 'Message sent — thanks for reaching out!';
+    console.log('SENT SUCCESSFULLY:', formData);
+    contactForm.reset();
+    localStorage.removeItem(PENDING_KEY);
+  } catch (err) {
+    saveForLater(formData);
+  }
+}
+
+function saveForLater(formData) {
+  localStorage.setItem(PENDING_KEY, JSON.stringify(formData));
+  console.log('SAVED OFFLINE:', formData); // temporary
+  contactStatus.textContent = "Connection dropped — saved your message, it'll send automatically once you're back online.";
+}
+
+window.addEventListener('online', () => {
+  const pending = localStorage.getItem(PENDING_KEY);
+  if (pending) {
+    trySend(JSON.parse(pending));
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const pending = localStorage.getItem(PENDING_KEY);
+  if (pending && navigator.onLine) {
+    trySend(JSON.parse(pending));
+  }
+});
+
+setInterval(() => {
+  const pending = localStorage.getItem(PENDING_KEY);
+  if (pending && navigator.onLine) {
+    trySend(JSON.parse(pending));
+  }
+}, 15000); // retries every 15s if something's pending and you're online 
