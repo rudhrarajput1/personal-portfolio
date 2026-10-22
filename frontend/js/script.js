@@ -140,6 +140,8 @@ requestAnimationFrame(updateCursor);
   });
 }
 
+const API_BASE = "http://127.0.0.1:5000";
+
 // ===== Offline-aware Contact Form =====
 const contactForm = document.getElementById('contact-form');
 const contactStatus = document.getElementById('contact-status');
