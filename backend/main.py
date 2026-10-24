@@ -4,6 +4,7 @@ Run with: uv run uvicorn main:app --reload
 """
 
 import sqlite3
+import feedparser
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -83,3 +84,15 @@ def list_messages():
     rows = conn.execute("SELECT * FROM messages ORDER BY created_at DESC").fetchall()
     conn.close()
     return [dict(r) for r in rows]
+
+
+@app.get("/api/ai-news")
+def get_ai_news():
+    feed = feedparser.parse("https://techcrunch.com/category/artificial-intelligence/feed/")
+    headlines = []
+    for entry in feed.entries[:3]:
+        headlines.append({
+            "title": entry.title,
+            "link": entry.link,
+        })
+    return {"headlines": headlines}
