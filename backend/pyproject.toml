@@ -6,4 +6,5 @@ dependencies = [
     "fastapi>=0.115",
     "uvicorn[standard]>=0.30",
     "pydantic[email]>=2.8",
+    "feedparser>=6.0.14",
 ]
