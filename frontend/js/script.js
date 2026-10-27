@@ -18,6 +18,26 @@ themeToggle.addEventListener('click', () => {
   themeToggle.textContent = current === 'dark' ? '☀️' : '🌙';
 });
 
+// =====================================================
+// NAV COLOR — switches based on section under it
+// =====================================================
+const navEl = document.querySelector('#navbar');
+const darkSection = document.querySelector('#about'); // adjust if you use a different id/class
+
+function updateNavColor() {
+  if (!navEl || !darkSection) return;
+
+  const navBottom = navEl.getBoundingClientRect().bottom;
+  const sectionRect = darkSection.getBoundingClientRect();
+
+  const navIsOverDarkSection = sectionRect.top <= navBottom && sectionRect.bottom >= navBottom;
+
+  navEl.classList.toggle('nav-on-dark', navIsOverDarkSection);
+}
+
+window.addEventListener('scroll', updateNavColor, { passive: true });
+window.addEventListener('resize', updateNavColor);
+updateNavColor();
 
 
 // =====================================================
@@ -218,6 +238,7 @@ const aboutTrack = document.getElementById('about-track');
 const aboutWindow = document.getElementById('about-window');
 const aboutWordTop = document.getElementById('about-word-top');
 const aboutWordBottom = document.getElementById('about-word-bottom');
+const aboutFigure = document.getElementById('about-figure');
 
 if (aboutTrack && aboutWindow) {
   function updateAboutZoom() {
@@ -231,8 +252,8 @@ if (aboutTrack && aboutWindow) {
     progress = Math.max(0, Math.min(1, progress));
 
     // Window grows
-    const minW = 280, maxW = window.innerWidth * 0.85;
-    const minH = 180, maxH = window.innerHeight * 0.7;
+    const minW = 400, maxW = window.innerWidth * 0.95;
+    const minH = 260, maxH = window.innerHeight * 0.85;
     const width = minW + (maxW - minW) * progress;
     const height = minH + (maxH - minH) * progress;
     aboutWindow.style.width = `${width}px`;
@@ -246,7 +267,14 @@ if (aboutTrack && aboutWindow) {
     const textOpacity = Math.max(0, 1 - progress * 1.3);
     aboutWordTop.style.opacity = textOpacity;
     aboutWordBottom.style.opacity = textOpacity;
-  }
+        // Angel fades/scales in as ABOUT/ME separate
+    if (aboutFigure) {
+      const figureOpacity = Math.min(1, progress * 1.6);
+      const figureScale = 0.5 + progress * 0.6;
+      aboutFigure.style.opacity = figureOpacity;
+      aboutFigure.style.transform = `scale(${figureScale}) rotate(${-4 + progress * 4}deg) translateY(50px)`;
+    }
+  } // end updateAboutZoom
 
   window.addEventListener('scroll', updateAboutZoom, { passive: true });
   window.addEventListener('resize', updateAboutZoom);
@@ -266,4 +294,3 @@ fetch('deploy-info.json')
   .catch(() => {
     document.getElementById('deploy-status').textContent = '';
   });
-  
