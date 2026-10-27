@@ -209,3 +209,61 @@ setInterval(() => {
     trySend(JSON.parse(pending));
   }
 }, 15000); // retries every 15s if something's pending and you're online 
+
+
+// =====================================================
+// ABOUT — scroll-driven zoom window + splitting text
+// =====================================================
+const aboutTrack = document.getElementById('about-track');
+const aboutWindow = document.getElementById('about-window');
+const aboutWordTop = document.getElementById('about-word-top');
+const aboutWordBottom = document.getElementById('about-word-bottom');
+
+if (aboutTrack && aboutWindow) {
+  function updateAboutZoom() {
+    const rect = aboutTrack.getBoundingClientRect();
+    const trackHeight = aboutTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+
+    const scrolled = -rect.top;
+    const scrollable = trackHeight - viewportHeight;
+    let progress = scrolled / scrollable;
+    progress = Math.max(0, Math.min(1, progress));
+
+    // Window grows
+    const minW = 280, maxW = window.innerWidth * 0.85;
+    const minH = 180, maxH = window.innerHeight * 0.7;
+    const width = minW + (maxW - minW) * progress;
+    const height = minH + (maxH - minH) * progress;
+    aboutWindow.style.width = `${width}px`;
+    aboutWindow.style.height = `${height}px`;
+    aboutWindow.classList.toggle('is-expanded', progress > 0.85);
+
+    // ABOUT moves left, ME moves right, both fade out
+    const shift = progress * 400; // px of horizontal separation
+    aboutWordTop.style.transform = `translateX(${-shift}px)`;
+    aboutWordBottom.style.transform = `translateX(${shift}px)`;
+    const textOpacity = Math.max(0, 1 - progress * 1.3);
+    aboutWordTop.style.opacity = textOpacity;
+    aboutWordBottom.style.opacity = textOpacity;
+  }
+
+  window.addEventListener('scroll', updateAboutZoom, { passive: true });
+  window.addEventListener('resize', updateAboutZoom);
+  updateAboutZoom();
+}
+// ===== Last Deployed =====
+fetch('deploy-info.json')
+  .then(res => res.json())
+  .then(data => {
+    const deployed = new Date(data.deployedAt);
+    const daysAgo = Math.floor((Date.now() - deployed) / 86400000);
+    const text = daysAgo === 0
+      ? 'Deployed today'
+      : `Last deployed ${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`;
+    document.getElementById('deploy-status').textContent = text;
+  })
+  .catch(() => {
+    document.getElementById('deploy-status').textContent = '';
+  });
+  
