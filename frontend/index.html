@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,6 +75,170 @@
   </div>
 </section>
 
+  <!-- ================= EDUCATION ================= -->
+  <section id="education">
+    <h2>EDUCATION</h2>
+    <div class="education-item">
+      <h3>Bachelor of Computer Applications</h3>
+      <p class="meta">AI &amp; Machine Learning &mdash; in progress</p>
+      <p>
+        Currently pursuing my BCA with a focus on Artificial Intelligence and Machine Learning.
+        Exploring programming, AI/ML concepts, web development, and software projects while
+        building my skills through practical work.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= SKILLS ================= -->
+  <section id="skills">
+    <h2>SKILLS</h2>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <h3>Python</h3>
+        <p>Building projects and strengthening my programming fundamentals.</p>
+      </div>
+      <div class="skill-card">
+        <h3>AI / ML</h3>
+        <p>Exploring machine learning and intelligent systems.</p>
+      </div>
+      <div class="skill-card">
+        <h3>HTML / CSS / JS</h3>
+        <p>Building and styling interactive web interfaces.</p>
+      </div>
+      <div class="skill-card">
+        <h3>Git / GitHub</h3>
+        <p>Managing project versions and hosting my work.</p>
+      </div>
+    </div>
+  </section>
+
+  
+ <!-- ================= PROJECTS ================= -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="fan-track" id="fan-track">
+      <div class="fan-stage" id="fan-stage">
+        <div class="fan-card" data-index="0" data-cursor="view">
+          <video class="preview" muted loop preload="metadata" src="assets/videos/ai-news-widget.mp4"></video>
+          <div class="label">AI News Widget</div>
+        </div>
+        <div class="fan-card" data-index="1" data-cursor="view">
+          <video class="preview" muted loop preload="metadata" src="assets/videos/offline-ai-chat.mp4"></video>
+          <div class="label">Offline AI Chat</div>
+        </div>
+        <div class="fan-card" data-index="2" data-cursor="view">
+          <video class="preview" muted loop preload="metadata" src="assets/videos/personal-mcp-server.mp4"></video>
+          <div class="label">Personal MCP Server</div>
+        </div>
+        <div class="fan-card" data-index="3" data-cursor="view">
+          <video class="preview" muted loop preload="metadata" src="assets/videos/result-analyzer.mp4"></video>
+          <div class="label">Student Result Analyzer</div>
+        </div>
+      </div>
+    </div>
+    <p class="fan-hint">Scroll to move through projects</p>
+  </section>
+
+  
+  <!-- ================= CONTACT ================= -->
+   <section class="contact" id="contact">
+  <canvas class="smoke-canvas"></canvas>
+  <h2>LET'S TALK</h2>
+  <form id="contact-form">
+    <input type="text" name="name" placeholder="Your name" required>
+    <input type="email" name="email" placeholder="Your email" required>
+    <textarea name="message" placeholder="Your message" required></textarea>
+    <button type="submit" data-cursor="now">Send</button>
+    <p id="contact-status"></p>
+  </form>
+</section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer>
+    <p>&copy; 2026 X</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+  <script src="js/ai-widget.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+ 
+  <!-- Custom Cursor -->
+<div class="custom-cursor" id="custom-cursor">
+  <span class="cursor-text"></span>
+</div>
+  <!-- ================= NAV ================= -->
+  <header id="navbar">
+    <div class="logo"><!-- your name/initials --></div>
+    <nav>
+      <ul>
+        <li><a href="#about" data-cursor="link">About</a></li>
+        <li><a href="#education" data-cursor="link">Education</a></li>
+        <li><a href="#skills" data-cursor="link">Skills</a></li>
+        <li><a href="#projects" data-cursor="link">Projects</a></li>
+        <li><a href="#contact" data-cursor="link">Contact</a></li>  
+      </ul>
+      </nav>
+      <div class="nav-actions">
+        <button id="theme-toggle" aria-label="Toggle theme">🌙</button>
+      </div>
+  </header>
+
+  <!-- ================= HERO ================= -->
+ <section class="hero" id="hero">
+    <h1>RUDHRA RAJPUT</h1> 
+    <p class="tagline">I build AI tools that keep working when the internet doesn't.</p>
+  </section>
+
+  <!-- ===== Floating AI News Widget ===== -->
+<div class="ai-widget" id="ai-widget">
+  <div class="ai-widget-title">AI News</div>
+  <div class="ai-widget-body" id="ai-widget-body">
+    <p class="ai-widget-loading">Loading...</p>
+  </div>
+</div>
+
+
+  <!-- ================= ABOUT ================= -->
+<section class="about-zoom-track" id="about-track">
+  <div class="about-zoom-stage">
+
+    <div class="about-text-stack">
+      <span class="about-word about-word-top" id="about-word-top">ABOUT</span>
+      <span class="about-word about-word-bottom" id="about-word-bottom">ME</span>
+    </div>
+
+    <div class="about-window" id="about-window">
+      <div class="about-beam"></div>
+      <img src="images/fallen-angel.png" class="about-figure" id="about-figure" alt="Fallen angel">
+           <div class="about-window-content" id="about-window-content">
+        <h2>BUILDING WITH PURPOSE, LEARNING WITH PACE</h2>
+        <p>
+          I'm Rudhra Rajput, a BCA student specializing in AI & Machine Learning —
+          building real tools instead of just studying theory.
+        </p>
+        <div class="about-buttons">
+          <a href="#contact" data-cursor="link" class="btn-outline">Get in touch</a>
+          <a href="#projects" data-cursor="link" class="btn-outline">Projects</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
   <!-- ================= EDUCATION ================= -->
   <section id="education">
     <h2>EDUCATION</h2>

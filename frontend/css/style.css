@@ -108,23 +108,133 @@ section h2 {
   max-width: 500px;
 }
 
-/* ===== About / Education / Featured / Contact ===== */
-#about, #education, #featured, #contact {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 200px 24px;
-  min-height: 90vh;
+/* ===== About — scroll-zoom window with beam + angel ===== */
+.about-zoom-track {
+  position: relative;
+  height: 400vh;
+}
+
+.about-zoom-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.about-text-stack {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.about-word {
+  font-size: clamp(4rem, 8vw, 6rem);
+  font-family: "Bebas Neue", sans-serif;
+  color: #ffffff;
+  line-height: 1;
+  transition: transform 0.1s linear, opacity 0.1s linear;
+}
+
+.about-window {
+  position: relative;
+  width: 400px;
+  height: 260px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #06060a;
+  box-shadow: 0 0 80px rgba(255,255,255,0.1);
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
   justify-content: center;
+  transition: width 0.1s linear, height 0.1s linear;
 }
 
-#about p, #education p, #featured p {
-  max-width: 650px;
+.about-beam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(100, 16, 16, 0.95), rgba(255,255,255,0.15));
+  clip-path: polygon(55% 0%, 72% 0%, 53% 100%, 21% 100%);
+  filter: blur(35px);
+  opacity: 0.85;
+  z-index: 1;
+  -webkit-mask-image: radial-gradient(ellipse at 60% 20%, black 30%, transparent 75%);
+  mask-image: radial-gradient(ellipse at 60% 20%, black 30%, transparent 75%);
 }
 
-.education-item h3 { font-size: 1.5rem; margin-bottom: 8px; }
-.education-item .meta { font-size: 0.85rem; margin-bottom: 16px; opacity: 0.7; }
+.about-figure {
+  position: relative;
+  z-index: 2;
+  width: 34%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 14px rgba(255,255,255,0.3));
+  opacity: 0;
+  transform: scale(0.5) rotate(-4deg);
+  transition: opacity 0.1s linear, transform 0.1s linear;
+}
+
+.about-window-content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  text-align: center;
+  padding: 24px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  color: #ffffff;
+  background: rgba(0,0,0,0.5);
+}
+
+.about-window-content h2 {
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-family: "Bebas Neue", sans-serif;
+  margin-bottom: 12px;
+  line-height: 1.1;
+}
+
+.about-window-content p {
+  max-width: 420px;
+  margin: 0 0 20px;
+}
+
+.about-buttons {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.btn-outline {
+  padding: 10px 24px;
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.85rem;
+  background: transparent;
+}
+
+.about-window.is-expanded .about-window-content {
+  opacity: 1;
+}
 
 /* ===== Skills grid ===== */
 #skills {
