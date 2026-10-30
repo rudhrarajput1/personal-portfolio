@@ -1,4 +1,5 @@
 
+
 // java script for the personal portfolio site //
 
 
@@ -18,6 +19,26 @@ themeToggle.addEventListener('click', () => {
   themeToggle.textContent = current === 'dark' ? '☀️' : '🌙';
 });
 
+// =====================================================
+// NAV COLOR — switches based on section under it
+// =====================================================
+const navEl = document.querySelector('#navbar');
+const darkSection = document.querySelector('#about'); // adjust if you use a different id/class
+
+function updateNavColor() {
+  if (!navEl || !darkSection) return;
+
+  const navBottom = navEl.getBoundingClientRect().bottom;
+  const sectionRect = darkSection.getBoundingClientRect();
+
+  const navIsOverDarkSection = sectionRect.top <= navBottom && sectionRect.bottom >= navBottom;
+
+  navEl.classList.toggle('nav-on-dark', navIsOverDarkSection);
+}
+
+window.addEventListener('scroll', updateNavColor, { passive: true });
+window.addEventListener('resize', updateNavColor);
+updateNavColor();
 
 
 // =====================================================
@@ -51,7 +72,6 @@ if (fanTrack && fanStage) {
     const rect = fanTrack.getBoundingClientRect();
     const trackHeight = fanTrack.offsetHeight;
     const viewportHeight = window.innerHeight;
-
     const scrolled = -rect.top;
     const scrollableDistance = trackHeight - viewportHeight;
     let progress = scrolled / scrollableDistance;
@@ -65,7 +85,6 @@ if (fanTrack && fanStage) {
       // How close this card is to being the active one right now.
       // 1 = fully active/front, 0 = one full step away or more (fully fanned).
       const closeness = Math.max(0, 1 - Math.abs(activeFloat - i));
-
       const fan = fanPositions[i];
       const x = lerp(fan.x, frontPosition.x, closeness);
       const y = lerp(fan.y, frontPosition.y, closeness);
@@ -185,7 +204,7 @@ async function trySend(formData) {
 
 function saveForLater(formData) {
   localStorage.setItem(PENDING_KEY, JSON.stringify(formData));
-  console.log('SAVED OFFLINE:', formData); // temporary
+  console.log('SAVED OFFLINE:', formData);                          // temporary
   contactStatus.textContent = "Connection dropped — saved your message, it'll send automatically once you're back online.";
 }
 
@@ -208,4 +227,115 @@ setInterval(() => {
   if (pending && navigator.onLine) {
     trySend(JSON.parse(pending));
   }
-}, 15000); // retries every 15s if something's pending and you're online 
+}, 15000);                                           // retries every 15s if something's pending and you're online 
+
+
+// =====================================================
+// ABOUT — scroll-driven zoom window + splitting text
+// =====================================================
+const aboutTrack = document.getElementById('about-track');
+const aboutWindow = document.getElementById('about-window');
+const aboutWordTop = document.getElementById('about-word-top');
+const aboutWordBottom = document.getElementById('about-word-bottom');
+const aboutFigure = document.getElementById('about-figure');
+
+if (aboutTrack && aboutWindow) {
+  function updateAboutZoom() {
+    const rect = aboutTrack.getBoundingClientRect();
+    const trackHeight = aboutTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollable = trackHeight - viewportHeight;
+    let progress = scrolled / scrollable;
+    progress = Math.max(0, Math.min(1, progress));
+
+    // Window grows
+    const minW = 400, maxW = window.innerWidth * 0.95;
+    const minH = 260, maxH = window.innerHeight * 0.85;
+    const width = minW + (maxW - minW) * progress;
+    const height = minH + (maxH - minH) * progress;
+    aboutWindow.style.width = `${width}px`;
+    aboutWindow.style.height = `${height}px`;
+    aboutWindow.classList.toggle('is-expanded', progress > 0.85);
+
+    // ABOUT moves left, ME moves right, both fade out
+    const shift = progress * 400;                                    // px of horizontal separation
+    aboutWordTop.style.transform = `translateX(${-shift}px)`;
+    aboutWordBottom.style.transform = `translateX(${shift}px)`;
+    const textOpacity = Math.max(0, 1 - progress * 1.3);
+    aboutWordTop.style.opacity = textOpacity;
+    aboutWordBottom.style.opacity = textOpacity;
+        // Angel fades/scales in as ABOUT/ME separate
+    if (aboutFigure) {
+      const figureOpacity = Math.min(1, progress * 1.6);
+      const figureScale = 0.5 + progress * 0.6;
+      aboutFigure.style.opacity = figureOpacity;
+      aboutFigure.style.transform = `scale(${figureScale}) rotate(${-4 + progress * 4}deg) translateY(50px)`;
+    }
+  } // end updateAboutZoom
+
+  window.addEventListener('scroll', updateAboutZoom, { passive: true });
+  window.addEventListener('resize', updateAboutZoom);
+  updateAboutZoom();
+}
+
+// =====================================================
+// SKILLS — full-screen pinned panels, R-to-L, persistent ghost bg
+// =====================================================
+const skillsTrack = document.getElementById('skills-track');
+const skillsStage = document.getElementById('skills-stage');
+const skillsGhostBg = document.getElementById('skills-ghost-bg');
+
+if (skillsTrack && skillsStage) {
+  const panels = Array.from(skillsStage.querySelectorAll('.skill-panel'));
+  const n = panels.length;
+
+  function lerpSkills(a, b, t) { return a + (b - a) * t; }
+
+  function updateSkills() {
+    const rect = skillsTrack.getBoundingClientRect();
+    const trackHeight = skillsTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollableDistance = trackHeight - viewportHeight;
+    let progress = scrolled / scrollableDistance;
+    progress = Math.max(0, Math.min(1, progress));
+    const activeFloat = progress * (n - 1);
+
+    panels.forEach((panel, i) => {
+      const distance = activeFloat - i;
+      const closeness = Math.max(0, 1 - Math.abs(distance));
+      const xOffset = -distance * 100;
+      const opacity = lerpSkills(0, 1, closeness);
+
+      panel.style.transform = `translateX(${xOffset}%)`;
+      panel.style.opacity = opacity;
+      panel.style.zIndex = Math.round(closeness * 100);
+    });
+
+    if (skillsGhostBg) {
+      const ghostShift = progress * -200;
+      skillsGhostBg.style.transform = `translateX(${ghostShift}px)`;
+    }
+  }
+
+  window.addEventListener('scroll', updateSkills, { passive: true });
+  window.addEventListener('resize', updateSkills);
+  updateSkills();
+}
+
+// ===== Last Deployed =====
+fetch('deploy-info.json')
+  .then(res => res.json())
+  .then(data => {
+    const deployed = new Date(data.deployedAt);
+    const daysAgo = Math.floor((Date.now() - deployed) / 86400000);
+    const text = daysAgo === 0
+      ? 'Deployed today'
+      : `Last deployed ${daysAgo} day${daysAgo === 1 ? '' : 's'} ago`;
+    document.getElementById('deploy-status').textContent = text;
+  })
+  .catch(() => {
+    document.getElementById('deploy-status').textContent = '';
+  });
+ 
