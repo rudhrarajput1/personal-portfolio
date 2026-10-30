@@ -261,22 +261,53 @@ section h2 {
   overflow: hidden;
 }
 
+/* Ghost words — 3 rows, alternating direction, continuous loop */
 .skills-ghost-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ghost-row {
+  display: flex;
   gap: 6vw;
   white-space: nowrap;
-  pointer-events: none;
-  will-change: transform;
+  width: max-content;
 }
 
 .skill-ghost {
   font-size: clamp(5rem, 18vw, 13rem);
   font-family: "Bebas Neue", sans-serif;
   color: rgba(255, 255, 255, 0.06);
+  line-height: 1;
+}
+
+.ghost-row-left {
+  animation: ghost-scroll-left linear infinite;
+}
+
+.ghost-row-right {
+  animation: ghost-scroll-right linear infinite;
+}
+
+/* Different speeds per row — row 1 slowest, row 3 fastest */
+.ghost-row:nth-child(1) { animation-duration: 40s; }
+.ghost-row:nth-child(2) { animation-duration: 28s; }
+.ghost-row:nth-child(3) { animation-duration: 18s; }
+
+@keyframes ghost-scroll-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes ghost-scroll-right {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 
 .skill-panel {
@@ -302,7 +333,7 @@ section h2 {
 }
 
 .skill-title {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(3rem, 12vw, 10rem);
   font-family: "Bebas Neue", sans-serif;
   line-height: 1;
   margin-bottom: 20px;
@@ -351,7 +382,7 @@ section h2 {
   justify-content: center;
   position: relative;
   z-index: 5;
-  background: #0a0a0a;
+  background: var(--bg);
 }
 
  /* ===== Projects stacked-fan (Campione-style) =====*/
