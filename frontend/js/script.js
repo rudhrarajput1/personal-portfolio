@@ -321,6 +321,62 @@ if (fanTrack && fanStage) {
   updateFan(); // correct positions on load, before any scrolling
 }
 
+
+ // =====================================================
+// UPCOMING PROJECTS — card grows in place, image slides in from right
+// =====================================================
+
+const upcomingSection = document.getElementById('upcoming-projects');
+const upcomingTrack = document.getElementById('upcoming-track');
+const upcomingCard = document.getElementById('upcoming-card');
+const upcomingImage = document.getElementById('upcoming-image-reveal');
+
+if (upcomingSection && upcomingTrack && upcomingCard && upcomingImage) {
+
+  // ripple only plays while the section is on screen
+  const rippleObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      upcomingSection.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { threshold: 0.3 });
+  rippleObserver.observe(upcomingSection);
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function updateUpcoming() {
+    const rect = upcomingTrack.getBoundingClientRect();
+    const trackHeight = upcomingTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollableDistance = trackHeight - viewportHeight;
+    let progress = scrolled / scrollableDistance;
+    progress = Math.max(0, Math.min(1, progress));
+
+    // Card grows in place — position is fixed via CSS, JS only controls size
+    const growProgress = Math.min(1, progress / 0.5);
+    const minW = 420, maxW = window.innerWidth * 0.8;
+    const minH = 260, maxH = window.innerHeight * 0.7;
+    upcomingCard.style.width = `${lerp(minW, maxW, growProgress)}px`;
+    upcomingCard.style.height = `${lerp(minH, maxH, growProgress)}px`;
+
+    // Image slides in from the right, overlapping the card on top (z-index 2)
+    const imageProgress = Math.max(0, (progress - 0.5) / 0.5);
+    const imageX = lerp(300, 40, imageProgress);
+    upcomingImage.style.transform = `translate(calc(-50% + ${imageX}px), -50%)`;
+    upcomingImage.style.opacity = imageProgress;
+
+    // ripple fades out as the card grows
+    upcomingSection.querySelector('.ripple-rings').style.opacity = 1 - growProgress;
+  }
+
+  window.addEventListener('scroll', updateUpcoming, { passive: true });
+  window.addEventListener('resize', updateUpcoming);
+  updateUpcoming();
+}
+
+
 // ===== Last Deployed =====
 fetch('deploy-info.json')
   .then(res => res.json())
@@ -335,4 +391,3 @@ fetch('deploy-info.json')
   .catch(() => {
     document.getElementById('deploy-status').textContent = '';
   });
- 

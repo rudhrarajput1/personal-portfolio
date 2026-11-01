@@ -385,80 +385,6 @@ section h2 {
   background: var(--bg);
 }
 
- /* ===== Projects stacked-fan (Campione-style) =====*/
-   
-#projects {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 140px 24px 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.fan-track {
-  position: relative;
-  height: 400vh; /* taller = more scroll distance per card = slower pacing */
-}
-
-.fan-stage {
-  position: sticky;
-  top: 10vh;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.fan-card {
-  position: absolute;
-  width: 320px;
-  height: 210px;
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--text);
-  opacity: 0.08;
-  border: 1px solid currentColor;
-  will-change: transform, opacity;
-  /* transform/opacity/z-index are all set directly by script.js per
-     scroll frame — no CSS transition here, since we want it glued to
-     scroll position exactly, not animating on a timer. */
-}
-
-.fan-card .preview {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.fan-card.is-active .preview {
-  opacity: 1;
-}
-
-.fan-card .label {
-  position: absolute;
-  bottom: 12px;
-  left: 16px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  z-index: 2;
-  color: var(--text);
-  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-.fan-hint {
-  text-align: center;
-  padding: 24px;
-  font-size: 0.85rem;
-  opacity: 0.6;
-}
-
-.project-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
-
-
 /* ===== Custom cursor ===== */
 @media (hover: hover) and (pointer: fine) {
   body {
@@ -639,6 +565,202 @@ a *, button *, .fan-card *, [data-cursor] * {
   to { transform: translate(-4%, -3%); }
 }
 
+/*===== Projects stacked-fan (Campione-style) =====*/
+   
+#projects {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 140px 24px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fan-track {
+  position: relative;
+  height: 400vh; /* taller = more scroll distance per card = slower pacing */
+}
+
+.fan-stage {
+  position: sticky;
+  top: 10vh;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fan-card {
+  position: absolute;
+  width: 320px;
+  height: 210px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--text);
+  opacity: 0.08;
+  border: 1px solid currentColor;
+  will-change: transform, opacity;
+  /* transform/opacity/z-index are all set directly by script.js per
+     scroll frame — no CSS transition here, since we want it glued to
+     scroll position exactly, not animating on a timer. */
+}
+
+.fan-card .preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.fan-card.is-active .preview {
+  opacity: 1;
+}
+
+.fan-card .label {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  z-index: 2;
+  color: var(--text);
+  text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.fan-hint {
+  text-align: center;
+  padding: 24px;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+.project-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+
+
+/* ===== Upcoming Projects — scroll-linked grow + image overlap ===== */
+#upcoming-projects {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 140px 24px 0;
+}
+
+.upcoming-track {
+  position: relative;
+  height: 220vh; /* scroll distance for the whole grow+reveal */
+}
+
+.upcoming-stage {
+  position: sticky;
+  top: 10vh;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ripple-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ripple-rings .ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+}
+
+#upcoming-projects.in-view .ripple-rings .ring {
+  animation: ripple-wave 3.2s ease-out infinite;
+}
+
+.ripple-rings .ring:nth-child(1) { animation-delay: 0s; }
+.ripple-rings .ring:nth-child(2) { animation-delay: 0.8s; }
+.ripple-rings .ring:nth-child(3) { animation-delay: 1.6s; }
+.ripple-rings .ring:nth-child(4) { animation-delay: 2.4s; }
+
+@keyframes ripple-wave {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0.6; }
+  70% { opacity: 0.15; }
+  100% { transform: translate(-50%, -50%) scale(18); opacity: 0; }
+}
+
+.upcoming-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 1;
+  width: 620px;
+  height: 460px;
+  padding: 32px;
+  border: 1px solid currentColor;
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  overflow: hidden;
+  will-change: width, height;
+}
+
+.upcoming-title {
+  text-align: left;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.upcoming-desc {
+  position: absolute;
+  left: 24px;
+  bottom: 48px;
+  max-width: 55%;
+  font-size: 0.9rem;
+  opacity: 0.85;
+  text-align: left;
+  margin: 0;
+}
+
+.upcoming-status {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  display: inline-block;
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  opacity: 0.7;
+}
+
+.upcoming-image-reveal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;             
+  width: 480px;
+  max-width: 80vw;
+  border-radius: 16px;
+  overflow: hidden;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.upcoming-image-reveal img {
+  width: 100%;
+  display: block;
+}
 
 /* ===== Contact form ===== */
 #contact form {
@@ -675,7 +797,7 @@ a *, button *, .fan-card *, [data-cursor] * {
   max-width: 1100px;
   margin: 0 auto;
   padding: 150px 24px;
-  min-height: 90vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
