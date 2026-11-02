@@ -712,6 +712,14 @@ a *, button *, .fan-card *, [data-cursor] * {
   backdrop-filter: blur(6px);
   overflow: hidden;
   will-change: width, height;
+
+   /* Graph-paper texture */
+  background-color: #5f5f5d;
+  background-image:
+    linear-gradient(rgba(219, 13, 13, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: #1a1a1a; /* dark text, since background is now light */
 }
 
 .upcoming-title {
@@ -746,20 +754,22 @@ a *, button *, .fan-card *, [data-cursor] * {
 
 .upcoming-image-reveal {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 2;             
-  width: 480px;
-  max-width: 80vw;
-  border-radius: 16px;
+  top: 100%;
+  left: 24%;
+  right: 24%;
+  bottom: 90;
+  border-radius: 10px;
   overflow: hidden;
   opacity: 0;
-  will-change: transform, opacity;
-}
-
-.upcoming-image-reveal img {
-  width: 100%;
-  display: block;
+  will-change: opacity;
+} 
+  
+.upcoming-image-caption {
+  position: absolute;
+  bottom: 8px;
+  left: 24px;
+  font-size: 0.7rem;
+  opacity: 0.5;
 }
 
 /* ===== Contact form ===== */
