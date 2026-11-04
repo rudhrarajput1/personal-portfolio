@@ -4,19 +4,25 @@
 
 
 
-// Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 const root = document.documentElement;
 
-// Load saved preference, or default to light
-const saved = localStorage.getItem('theme');
-if (saved) root.setAttribute('data-theme', saved);
+const themeOrder = ['light', 'dark', 'comfort'];
+const themeIcons = { light: '🌙', dark: '☀️', comfort: '🌿' };
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  root.setAttribute('data-theme', savedTheme);
+  themeToggle.textContent = themeIcons[savedTheme];
+}
 
 themeToggle.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', current);
-  localStorage.setItem('theme', current);
-  themeToggle.textContent = current === 'dark' ? '☀️' : '🌙';
+  const current = root.getAttribute('data-theme') || 'light';
+  const nextIndex = (themeOrder.indexOf(current) + 1) % themeOrder.length;
+  const next = themeOrder[nextIndex];
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeToggle.textContent = themeIcons[next];
 });
 
 // =====================================================
@@ -363,8 +369,6 @@ if (upcomingSection && upcomingTrack && upcomingCard && upcomingImage) {
 
     // Image slides in from the right, overlapping the card on top (z-index 2)
     const imageProgress = Math.max(0, (progress - 0.5) / 0.5);
-    const imageX = lerp(300, 40, imageProgress);
-    upcomingImage.style.transform = `translate(calc(-50% + ${imageX}px), -50%)`;
     upcomingImage.style.opacity = imageProgress;
 
     // ripple fades out as the card grows
