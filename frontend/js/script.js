@@ -4,19 +4,25 @@
 
 
 
-// Theme toggle functionality
 const themeToggle = document.getElementById('theme-toggle');
 const root = document.documentElement;
 
-// Load saved preference, or default to light
-const saved = localStorage.getItem('theme');
-if (saved) root.setAttribute('data-theme', saved);
+const themeOrder = ['light', 'dark', 'comfort'];
+const themeIcons = { light: '🌙', dark: '☀️', comfort: '🌿' };
+
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  root.setAttribute('data-theme', savedTheme);
+  themeToggle.textContent = themeIcons[savedTheme];
+}
 
 themeToggle.addEventListener('click', () => {
-  const current = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  root.setAttribute('data-theme', current);
-  localStorage.setItem('theme', current);
-  themeToggle.textContent = current === 'dark' ? '☀️' : '🌙';
+  const current = root.getAttribute('data-theme') || 'light';
+  const nextIndex = (themeOrder.indexOf(current) + 1) % themeOrder.length;
+  const next = themeOrder[nextIndex];
+  root.setAttribute('data-theme', next);
+  localStorage.setItem('theme', next);
+  themeToggle.textContent = themeIcons[next];
 });
 
 // =====================================================
@@ -41,77 +47,6 @@ window.addEventListener('resize', updateNavColor);
 updateNavColor();
 
 
-// =====================================================
-// PROJECTS — scroll-linked stacked fan (Campione-style)
-// =====================================================
-
-
-const fanTrack = document.getElementById('fan-track');
-const fanStage = document.getElementById('fan-stage');
-
-if (fanTrack && fanStage) {
-  const cards = Array.from(fanStage.querySelectorAll('.fan-card'));
-  const n = cards.length;
-
-  // Fixed scattered positions (like the reference fan image) — one
-  // per card, by index. Tweak x/y/rotate here to adjust the scatter look.
-  const fanPositions = [
-    { x: -140, y: 50,  rotate: -10 },
-    { x: -45,  y: 15,  rotate: -4  },
-    { x: 45,   y: -15, rotate: 4   },
-    { x: 140,  y: -50, rotate: 10  },
-  ];
-
-  const frontPosition = { x: 0, y: 0, rotate: 0 };
-
-  function lerp(a, b, t) {
-    return a + (b - a) * t;
-  }
-
-  function updateFan() {
-    const rect = fanTrack.getBoundingClientRect();
-    const trackHeight = fanTrack.offsetHeight;
-    const viewportHeight = window.innerHeight;
-    const scrolled = -rect.top;
-    const scrollableDistance = trackHeight - viewportHeight;
-    let progress = scrolled / scrollableDistance;
-    progress = Math.max(0, Math.min(1, progress)); // clamp 0–1
-
-    // Which card "should" be front-and-center right now, as a continuous
-    // (not integer) value — e.g. 1.5 means halfway between card 1 and 2.
-    const activeFloat = progress * (n - 1);
-
-    cards.forEach((card, i) => {
-      // How close this card is to being the active one right now.
-      // 1 = fully active/front, 0 = one full step away or more (fully fanned).
-      const closeness = Math.max(0, 1 - Math.abs(activeFloat - i));
-      const fan = fanPositions[i];
-      const x = lerp(fan.x, frontPosition.x, closeness);
-      const y = lerp(fan.y, frontPosition.y, closeness);
-      const rotate = lerp(fan.rotate, frontPosition.rotate, closeness);
-      const scale = lerp(0.82, 1.08, closeness);
-      const opacity = lerp(0.35, 1, closeness);
-
-      card.style.transform =
-        `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale})`;
-      card.style.opacity = opacity;
-      // Closer-to-active cards sit on top of the stack.
-      card.style.zIndex = Math.round(closeness * 100);
-
-      const vid = card.querySelector('video');
-      const isActive = closeness > 0.85;
-      card.classList.toggle('is-active', isActive);
-      if (vid) {
-        if (isActive) vid.play();
-        else { vid.pause(); }
-      }
-    });
-  }
-
-  window.addEventListener('scroll', updateFan, { passive: true });
-  window.addEventListener('resize', updateFan);
-  updateFan(); // correct positions on load, before any scrolling
-}
 
 // =====================================================
 // CUSTOM CURSOR — changes per section via data-cursor attributes
@@ -313,16 +248,138 @@ if (skillsTrack && skillsStage) {
       panel.style.zIndex = Math.round(closeness * 100);
     });
 
-    if (skillsGhostBg) {
-      const ghostShift = progress * -200;
-      skillsGhostBg.style.transform = `translateX(${ghostShift}px)`;
-    }
   }
 
   window.addEventListener('scroll', updateSkills, { passive: true });
   window.addEventListener('resize', updateSkills);
   updateSkills();
 }
+
+// =====================================================
+// PROJECTS — scroll-linked stacked fan (Campione-style)
+// =====================================================
+
+
+const fanTrack = document.getElementById('fan-track');
+const fanStage = document.getElementById('fan-stage');
+
+if (fanTrack && fanStage) {
+  const cards = Array.from(fanStage.querySelectorAll('.fan-card'));
+  const n = cards.length;
+
+  // Fixed scattered positions (like the reference fan image) — one
+  // per card, by index. Tweak x/y/rotate here to adjust the scatter look.
+  const fanPositions = [
+    { x: -140, y: 50,  rotate: -10 },
+    { x: -45,  y: 15,  rotate: -4  },
+    { x: 45,   y: -15, rotate: 4   },
+    { x: 140,  y: -50, rotate: 10  },
+  ];
+
+  const frontPosition = { x: 0, y: 0, rotate: 0 };
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function updateFan() {
+    const rect = fanTrack.getBoundingClientRect();
+    const trackHeight = fanTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollableDistance = trackHeight - viewportHeight;
+    let progress = scrolled / scrollableDistance;
+    progress = Math.max(0, Math.min(1, progress)); // clamp 0–1
+
+    // Which card "should" be front-and-center right now, as a continuous
+    // (not integer) value — e.g. 1.5 means halfway between card 1 and 2.
+    const activeFloat = progress * (n - 1);
+
+    cards.forEach((card, i) => {
+      // How close this card is to being the active one right now.
+      // 1 = fully active/front, 0 = one full step away or more (fully fanned).
+      const closeness = Math.max(0, 1 - Math.abs(activeFloat - i));
+      const fan = fanPositions[i];
+      const x = lerp(fan.x, frontPosition.x, closeness);
+      const y = lerp(fan.y, frontPosition.y, closeness);
+      const rotate = lerp(fan.rotate, frontPosition.rotate, closeness);
+      const scale = lerp(0.82, 1.08, closeness);
+      const opacity = lerp(0.35, 1, closeness);
+
+      card.style.transform =
+        `translate(${x}px, ${y}px) rotate(${rotate}deg) scale(${scale})`;
+      card.style.opacity = opacity;
+      // Closer-to-active cards sit on top of the stack.
+      card.style.zIndex = Math.round(closeness * 100);
+
+      const vid = card.querySelector('video');
+      const isActive = closeness > 0.85;
+      card.classList.toggle('is-active', isActive);
+      if (vid) {
+        if (isActive) vid.play();
+        else { vid.pause(); }
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateFan, { passive: true });
+  window.addEventListener('resize', updateFan);
+  updateFan(); // correct positions on load, before any scrolling
+}
+
+
+ // =====================================================
+// UPCOMING PROJECTS — card grows in place, image slides in from right
+// =====================================================
+
+const upcomingSection = document.getElementById('upcoming-projects');
+const upcomingTrack = document.getElementById('upcoming-track');
+const upcomingCard = document.getElementById('upcoming-card');
+const upcomingImage = document.getElementById('upcoming-image-reveal');
+
+if (upcomingSection && upcomingTrack && upcomingCard && upcomingImage) {
+
+  // ripple only plays while the section is on screen
+  const rippleObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      upcomingSection.classList.toggle('in-view', entry.isIntersecting);
+    });
+  }, { threshold: 0.3 });
+  rippleObserver.observe(upcomingSection);
+
+  function lerp(a, b, t) {
+    return a + (b - a) * t;
+  }
+
+  function updateUpcoming() {
+    const rect = upcomingTrack.getBoundingClientRect();
+    const trackHeight = upcomingTrack.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const scrolled = -rect.top;
+    const scrollableDistance = trackHeight - viewportHeight;
+    let progress = scrolled / scrollableDistance;
+    progress = Math.max(0, Math.min(1, progress));
+
+    // Card grows in place — position is fixed via CSS, JS only controls size
+    const growProgress = Math.min(1, progress / 0.5);
+    const minW = 420, maxW = window.innerWidth * 0.8;
+    const minH = 260, maxH = window.innerHeight * 0.7;
+    upcomingCard.style.width = `${lerp(minW, maxW, growProgress)}px`;
+    upcomingCard.style.height = `${lerp(minH, maxH, growProgress)}px`;
+
+    // Image slides in from the right, overlapping the card on top (z-index 2)
+    const imageProgress = Math.max(0, (progress - 0.5) / 0.5);
+    upcomingImage.style.opacity = imageProgress;
+
+    // ripple fades out as the card grows
+    upcomingSection.querySelector('.ripple-rings').style.opacity = 1 - growProgress;
+  }
+
+  window.addEventListener('scroll', updateUpcoming, { passive: true });
+  window.addEventListener('resize', updateUpcoming);
+  updateUpcoming();
+}
+
 
 // ===== Last Deployed =====
 fetch('deploy-info.json')
@@ -338,4 +395,3 @@ fetch('deploy-info.json')
   .catch(() => {
     document.getElementById('deploy-status').textContent = '';
   });
- 
