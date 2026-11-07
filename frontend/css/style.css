@@ -728,6 +728,8 @@ a *, button *, .fan-card *, [data-cursor] * {
 }
 
 .upcoming-title {
+  position: relative;
+  z-index: 2;
   font-size: 1.8rem;
   font-weight: 700;
   margin: 0;
@@ -761,11 +763,9 @@ a *, button *, .fan-card *, [data-cursor] * {
 
 .upcoming-image-reveal {
   position: absolute;
-  top: 70px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 0 0 16px 16px;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
   overflow: hidden;
   opacity: 0;
   will-change: opacity;
@@ -788,6 +788,7 @@ a *, button *, .fan-card *, [data-cursor] * {
   left: 24px;
   font-size: 0.7rem;
   opacity: 0.5;
+  z-index: 2;
 }
 
 .upcoming-image-reveal img {

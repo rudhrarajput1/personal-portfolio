@@ -329,7 +329,7 @@ if (fanTrack && fanStage) {
 
 
  // =====================================================
-// UPCOMING PROJECTS — card grows in place, image slides in from right
+// UPCOMING PROJECTS — card and image grow in place
 // =====================================================
 
 const upcomingSection = document.getElementById('upcoming-projects');
@@ -367,9 +367,8 @@ if (upcomingSection && upcomingTrack && upcomingCard && upcomingImage) {
     upcomingCard.style.width = `${lerp(minW, maxW, growProgress)}px`;
     upcomingCard.style.height = `${lerp(minH, maxH, growProgress)}px`;
 
-    // Image slides in from the right, overlapping the card on top (z-index 2)
-    const imageProgress = Math.max(0, (progress - 0.5) / 0.5);
-    upcomingImage.style.opacity = imageProgress;
+    // Let the image grow into view with the card.
+    upcomingImage.style.opacity = growProgress;
 
     // ripple fades out as the card grows
     upcomingSection.querySelector('.ripple-rings').style.opacity = 1 - growProgress;
