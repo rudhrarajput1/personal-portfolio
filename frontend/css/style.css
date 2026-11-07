@@ -466,10 +466,13 @@ a *, button *, .fan-card *, [data-cursor] * {
 .ai-widget {
   position: absolute;  /* was: fixed */
   width: 220px;
-  background: var(--bg);
-  border: 1px solid currentColor;
-  border-radius: 10px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3),
+        inset  0 1px 1px rgba(255,255,255,0.1);
   z-index: 500;
   overflow: hidden;
   user-select: none;
@@ -497,7 +500,7 @@ a *, button *, .fan-card *, [data-cursor] * {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid currentColor;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
   opacity: 0.7;
 }
 
@@ -810,9 +813,9 @@ a *, button *, .fan-card *, [data-cursor] * {
 #contact input,
 #contact textarea {
   padding: 14px;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  background: transparent;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.05);
   color: inherit;
   font: inherit;
 }
@@ -821,14 +824,20 @@ a *, button *, .fan-card *, [data-cursor] * {
 
 #contact button {
   padding: 14px;
-  border: 1px solid currentColor;
-  border-radius: 6px;
-  background: transparent;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
   color: inherit;
   font: inherit;
   cursor: pointer;
   width: fit-content;
+  transition: background 0.2s ease;
 }
+
+#contact button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
 #contact {
   max-width: 1100px;
   margin: 0 auto;
