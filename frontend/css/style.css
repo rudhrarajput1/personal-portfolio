@@ -464,7 +464,7 @@ a *, button *, .fan-card *, [data-cursor] * {
 }
 
 .ai-widget {
-  position: absolute;  /* was: fixed */
+  position: absolute;
   width: 220px;
   background: rgba(255,255,255,0.08);
   backdrop-filter: blur(16px) saturate(140%);
@@ -472,7 +472,7 @@ a *, button *, .fan-card *, [data-cursor] * {
   border: 1px solid rgba(255,255,255,0.18);
   border-radius: 14px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3),
-        inset  0 1px 1px rgba(255,255,255,0.1);
+        inset  0 1px 1px rgba(255,255,255,0.9);
   z-index: 500;
   overflow: hidden;
   user-select: none;
